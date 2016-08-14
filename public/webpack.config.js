@@ -6,16 +6,19 @@ var CompressionPlugin = require("compression-webpack-plugin");
 var autoprefixer = require('autoprefixer');
 var precss       = require('precss');
 
+var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
   entry: {
-      app: './index.js',
+      app: './js/main.js',
   },
   cache: true,
   debug: true,
   devtool: 'source-map',
   output: { 
     publicPath:"/",
-    path: './public/', 
+    path: './build/', 
     filename: "[name].js"
   },
   module: {
@@ -86,18 +89,24 @@ module.exports = {
       }
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      compress: {
-        warnings: false
-      },
-      output: {comments: false}
-    }),
-    new CompressionPlugin({
-            asset: "[path].gz[query]",
-            algorithm: "gzip",
-            threshold: 10240,
-            minRatio: 0.8
-        })
+    // new webpack.optimize.UglifyJsPlugin({
+    //   minimize: true,
+    //   compress: {
+    //     warnings: false
+    //   },
+    //   output: {comments: false}
+    // }),
+    new FaviconsWebpackPlugin('./img/profile.png'),
+    new HtmlWebpackPlugin({
+      hash:true,
+      filename: 'index.html',
+      template: './assets/index.html',
+    })
+    // new CompressionPlugin({
+    //         asset: "[path].gz[query]",
+    //         algorithm: "gzip",
+    //         threshold: 10240,
+    //         minRatio: 0.8
+    //     })
   ]
 };
